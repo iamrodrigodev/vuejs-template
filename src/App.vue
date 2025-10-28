@@ -1,7 +1,7 @@
 <script setup lang="ts">
-import { ref, computed } from "vue";
+import { ref, computed } from 'vue';
 
-const name: string = "Vue 3";
+const name: string = 'Vue 3';
 const counter = ref<number>(0);
 const favoritos = ref<number[]>([]);
 
@@ -46,12 +46,18 @@ const chunkedFavoritos = computed(() => {
     <button class="btn green" @click="increment">Increment</button>
     <button class="btn red" @click="decrement">Decrement</button>
     <button class="btn gray" @click="reset">Reset</button>
-    <button class="btn blue" @click="addToFavoritos" :disabled="isInFavoritos">Add</button>
+    <button class="btn blue" :disabled="isInFavoritos" @click="addToFavoritos">
+      Add
+    </button>
   </div>
 
   <h2>Mis Favoritos</h2>
   <div class="favorites-columns">
-    <div class="column" v-for="(chunk, colIndex) in chunkedFavoritos" :key="colIndex">
+    <div
+      v-for="(chunk, colIndex) in chunkedFavoritos"
+      :key="colIndex"
+      class="column"
+    >
       <table class="favorites-table">
         <tr v-for="(fav, index) in chunk" :key="index">
           <td>{{ fav }}</td>
