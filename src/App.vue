@@ -33,7 +33,6 @@ const isInFavoritos: ComputedRef<boolean> = computed<boolean>(() => {
   return found;
 });
 
-// Computed: dividir la lista de favoritos en grupos de 10
 const chunkSize: number = 10;
 
 const chunkedFavoritos: ComputedRef<number[][]> = computed<number[][]>(() => {
@@ -41,7 +40,6 @@ const chunkedFavoritos: ComputedRef<number[][]> = computed<number[][]>(() => {
   const lista: number[] = favoritos.value;
   const total: number = lista.length;
 
-  // Tipado completo dentro del for
   for (let i: number = 0; i < total; i += chunkSize) {
     const startIndex: number = i;
     const endIndex: number = i + chunkSize;
@@ -141,7 +139,6 @@ h2 {
   opacity: 0.85;
 }
 
-/* Estilos para columnas dinámicas */
 .favorites-columns {
   display: flex;
   justify-content: center;
