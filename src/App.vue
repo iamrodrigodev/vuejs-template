@@ -1,39 +1,54 @@
 <script setup lang="ts">
-import { ref, computed } from 'vue';
+import { ref, computed, type Ref, type ComputedRef } from 'vue';
 
 const name: string = 'Vue 3';
-const counter = ref<number>(0);
-const favoritos = ref<number[]>([]);
+const counter: Ref<number> = ref<number>(0);
+const favoritos: Ref<number[]> = ref<number[]>([]);
 
-// Acciones
-const increment = (): void => {
+const increment: () => void = (): void => {
   counter.value++;
 };
 
-const decrement = (): void => {
+const decrement: () => void = (): void => {
   counter.value--;
 };
 
-const reset = (): void => {
+const reset: () => void = (): void => {
   counter.value = 0;
 };
 
-const addToFavoritos = (): void => {
-  if (!favoritos.value.includes(counter.value)) {
-    favoritos.value.push(counter.value);
+const addToFavoritos: () => void = (): void => {
+  const currentValue: number = counter.value;
+  const exists: boolean = favoritos.value.includes(currentValue);
+
+  if (!exists) {
+    favoritos.value.push(currentValue);
   }
 };
 
-// Desactivar botón si el número ya está en favoritos
-const isInFavoritos = computed(() => favoritos.value.includes(counter.value));
+const isInFavoritos: ComputedRef<boolean> = computed<boolean>(() => {
+  const currentValue: number = counter.value;
+  const listaFavoritos: number[] = favoritos.value;
+  const found: boolean = listaFavoritos.includes(currentValue);
+  return found;
+});
 
-// Dividir favoritos en columnas de 10
-const chunkSize = 10;
-const chunkedFavoritos = computed(() => {
+// Computed: dividir la lista de favoritos en grupos de 10
+const chunkSize: number = 10;
+
+const chunkedFavoritos: ComputedRef<number[][]> = computed<number[][]>(() => {
   const chunks: number[][] = [];
-  for (let i = 0; i < favoritos.value.length; i += chunkSize) {
-    chunks.push(favoritos.value.slice(i, i + chunkSize));
+  const lista: number[] = favoritos.value;
+  const total: number = lista.length;
+
+  // Tipado completo dentro del for
+  for (let i: number = 0; i < total; i += chunkSize) {
+    const startIndex: number = i;
+    const endIndex: number = i + chunkSize;
+    const slice: number[] = lista.slice(startIndex, endIndex);
+    chunks.push(slice);
   }
+
   return chunks;
 });
 </script>
@@ -144,13 +159,17 @@ h2 {
   background-color: #fff;
   color: #000;
   border-radius: 6px;
-  border-collapse: collapse;
-  width: 80px;
+  border: 1px solid #ddd;
+  overflow: hidden;
 }
 
 .favorites-table td {
-  border: 1px solid #ccc;
-  padding: 6px;
+  padding: 8px 16px;
   text-align: center;
+  border-bottom: 1px solid #eee;
+}
+
+.favorites-table tr:last-child td {
+  border-bottom: none;
 }
 </style>
