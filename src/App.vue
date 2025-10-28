@@ -1,30 +1,51 @@
 <script setup lang="ts">
-import HelloWorld from './components/HelloWorld.vue'
+import { ref } from "vue";
+
+const name: string = "Vue 3";
+const counter = ref<number>(0);
+
+const increment = (): void => {
+  counter.value++;
+};
+
+const decrement = (): void => {
+  counter.value--;
+};
+
+const reset = (): void => {
+  counter.value = 0;
+};
 </script>
 
 <template>
-  <div>
-    <a href="https://vite.dev" target="_blank">
-      <img src="/vite.svg" class="logo" alt="Vite logo" />
-    </a>
-    <a href="https://vuejs.org/" target="_blank">
-      <img src="./assets/vue.svg" class="logo vue" alt="Vue logo" />
-    </a>
-  </div>
-  <HelloWorld msg="Vite + Vue" />
+  <h1>Hola {{ name }}!</h1>
+  <h2 :class="counter >= 0 ? 'positive' : 'negative'">
+    {{ counter }}
+  </h2>
+
+  <button @click="increment">Incrementar</button>
+  <button @click="decrement">Decrementar</button>
+  <button @click="reset">Reset</button>
 </template>
 
 <style scoped>
-.logo {
-  height: 6em;
-  padding: 1.5em;
-  will-change: filter;
-  transition: filter 300ms;
+.negative {
+  color: red;
 }
-.logo:hover {
-  filter: drop-shadow(0 0 2em #646cffaa);
+
+.positive {
+  color: green;
 }
-.logo.vue:hover {
-  filter: drop-shadow(0 0 2em #42b883aa);
+
+button {
+  margin-right: 5px;
+  padding: 6px 12px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  background: #f2f2f2;
+}
+button:hover {
+  background: #ddd;
 }
 </style>
