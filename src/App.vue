@@ -1,52 +1,35 @@
 <script setup lang="ts">
-import { ref, computed, type Ref, type ComputedRef } from 'vue';
+import { ref, computed } from 'vue';
 
-const name: string = 'Vue 3';
-const counter: Ref<number> = ref<number>(0);
-const favoritos: Ref<number[]> = ref<number[]>([]);
+// Constants
+const name = 'Vue 3';
+const CHUNK_SIZE = 10;
 
-const increment: () => void = (): void => {
-  counter.value++;
-};
+// Reactive state
+const counter = ref(0);
+const favoritos = ref<number[]>([]);
 
-const decrement: () => void = (): void => {
-  counter.value--;
-};
+// Actions
+const increment = () => counter.value++;
+const decrement = () => counter.value--;
+const reset = () => counter.value = 0;
 
-const reset: () => void = (): void => {
-  counter.value = 0;
-};
-
-const addToFavoritos: () => void = (): void => {
-  const currentValue: number = counter.value;
-  const exists: boolean = favoritos.value.includes(currentValue);
-
-  if (!exists) {
-    favoritos.value.push(currentValue);
+const addToFavoritos = () => {
+  if (!favoritos.value.includes(counter.value)) {
+    favoritos.value.push(counter.value);
   }
 };
 
-const isInFavoritos: ComputedRef<boolean> = computed<boolean>(() => {
-  const currentValue: number = counter.value;
-  const listaFavoritos: number[] = favoritos.value;
-  const found: boolean = listaFavoritos.includes(currentValue);
-  return found;
-});
+// Computed properties
+const isInFavoritos = computed(() =>
+  favoritos.value.includes(counter.value)
+);
 
-const chunkSize: number = 10;
-
-const chunkedFavoritos: ComputedRef<number[][]> = computed<number[][]>(() => {
+const chunkedFavoritos = computed(() => {
   const chunks: number[][] = [];
-  const lista: number[] = favoritos.value;
-  const total: number = lista.length;
-
-  for (let i: number = 0; i < total; i += chunkSize) {
-    const startIndex: number = i;
-    const endIndex: number = i + chunkSize;
-    const slice: number[] = lista.slice(startIndex, endIndex);
-    chunks.push(slice);
+  for (let i = 0; i < favoritos.value.length; i += CHUNK_SIZE) {
+    chunks.push(favoritos.value.slice(i, i + CHUNK_SIZE));
   }
-
   return chunks;
 });
 </script>
@@ -68,12 +51,12 @@ const chunkedFavoritos: ComputedRef<number[][]> = computed<number[][]>(() => {
   <div class="favorites-container">
     <div
       v-for="(chunk, rowIndex) in chunkedFavoritos"
-      :key="rowIndex"
+      :key="`row-${rowIndex}`"
       class="favorites-row"
     >
       <div
-        v-for="(fav, index) in chunk"
-        :key="index"
+        v-for="fav in chunk"
+        :key="fav"
         class="favorite-item"
       >
         {{ fav }}
