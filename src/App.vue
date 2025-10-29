@@ -65,17 +65,19 @@ const chunkedFavoritos: ComputedRef<number[][]> = computed<number[][]>(() => {
   </div>
 
   <h2>Mis Favoritos</h2>
-  <div class="favorites-columns">
+  <div class="favorites-container">
     <div
-      v-for="(chunk, colIndex) in chunkedFavoritos"
-      :key="colIndex"
-      class="column"
+      v-for="(chunk, rowIndex) in chunkedFavoritos"
+      :key="rowIndex"
+      class="favorites-row"
     >
-      <table class="favorites-table">
-        <tr v-for="(fav, index) in chunk" :key="index">
-          <td>{{ fav }}</td>
-        </tr>
-      </table>
+      <div
+        v-for="(fav, index) in chunk"
+        :key="index"
+        class="favorite-item"
+      >
+        {{ fav }}
+      </div>
     </div>
   </div>
 </template>
@@ -139,34 +141,34 @@ h2 {
   opacity: 0.85;
 }
 
-.favorites-columns {
-  display: flex;
-  justify-content: center;
-  gap: 16px;
-  flex-wrap: wrap;
-  margin-top: 16px;
+.favorites-container {
+  max-width: 800px;
+  margin: 16px auto;
+  padding: 16px;
+  background-color: #2a2a2a;
+  border-radius: 8px;
+  min-height: 200px;
+  max-height: 400px;
+  overflow-y: auto;
 }
 
-.column {
+.favorites-row {
   display: flex;
-  flex-direction: column;
+  gap: 8px;
+  margin-bottom: 12px;
+  flex-wrap: nowrap;
+  justify-content: flex-start;
 }
 
-.favorites-table {
+.favorite-item {
   background-color: #fff;
   color: #000;
+  padding: 10px 16px;
   border-radius: 6px;
-  border: 1px solid #ddd;
-  overflow: hidden;
-}
-
-.favorites-table td {
-  padding: 8px 16px;
+  font-weight: bold;
+  min-width: 60px;
   text-align: center;
-  border-bottom: 1px solid #eee;
-}
-
-.favorites-table tr:last-child td {
-  border-bottom: none;
+  border: 2px solid #4a90e2;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 </style>
