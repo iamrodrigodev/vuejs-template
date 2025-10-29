@@ -48,22 +48,21 @@ const chunkedFavoritos = computed(() => {
   </div>
 
   <h2>Mis Favoritos</h2>
-  <div v-if="favoritos.length > 0" class="favorites-container">
-    <div
-      v-for="(chunk, rowIndex) in chunkedFavoritos"
-      :key="`row-${rowIndex}`"
-      class="favorites-row"
-    >
+  <div class="favorites-wrapper">
+    <div class="favorites-columns">
       <div
-        v-for="fav in chunk"
-        :key="fav"
-        class="favorite-item"
+        v-for="(chunk, colIndex) in chunkedFavoritos"
+        :key="colIndex"
+        class="column"
       >
-        {{ fav }}
+        <table class="favorites-table">
+          <tr v-for="(fav, index) in chunk" :key="index">
+            <td>{{ fav }}</td>
+          </tr>
+        </table>
       </div>
     </div>
   </div>
-  <p v-else class="empty-message">No hay favoritos agregados</p>
 </template>
 
 <style scoped>
@@ -125,45 +124,39 @@ h2 {
   opacity: 0.85;
 }
 
-.favorites-container {
-  max-width: 900px;
-  margin: 16px auto;
+.favorites-wrapper {
+  min-height: 450px;
+  padding: 16px 0;
+}
+
+.favorites-columns {
+  display: flex;
+  justify-content: center;
+  gap: 16px;
+  flex-wrap: wrap;
+  margin-top: 16px;
+}
+
+.column {
+  display: flex;
+  flex-direction: column;
+}
+
+.favorites-table {
   background-color: #fff;
   color: #000;
   border-radius: 6px;
   border: 1px solid #ddd;
-  padding: 16px;
-  min-height: 200px;
-  max-height: 400px;
-  overflow-y: auto;
+  overflow: hidden;
 }
 
-.favorites-row {
-  display: flex;
-  gap: 0;
-  margin-bottom: 0;
-}
-
-.favorite-item {
+.favorites-table td {
   padding: 8px 16px;
   text-align: center;
-  border-right: 1px solid #eee;
   border-bottom: 1px solid #eee;
-  min-width: 60px;
 }
 
-.favorite-item:last-child {
-  border-right: none;
-}
-
-.favorites-row:last-child .favorite-item {
+.favorites-table tr:last-child td {
   border-bottom: none;
-}
-
-.empty-message {
-  color: #888;
-  font-style: italic;
-  text-align: center;
-  margin: 20px 0;
 }
 </style>
