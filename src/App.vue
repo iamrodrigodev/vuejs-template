@@ -48,7 +48,7 @@ const chunkedFavoritos = computed(() => {
   </div>
 
   <h2>Mis Favoritos</h2>
-  <div class="favorites-container">
+  <div v-if="favoritos.length > 0" class="favorites-container">
     <div
       v-for="(chunk, rowIndex) in chunkedFavoritos"
       :key="`row-${rowIndex}`"
@@ -63,6 +63,7 @@ const chunkedFavoritos = computed(() => {
       </div>
     </div>
   </div>
+  <p v-else class="empty-message">No hay favoritos agregados</p>
 </template>
 
 <style scoped>
@@ -157,5 +158,12 @@ h2 {
 
 .favorites-row:last-child .favorite-item {
   border-bottom: none;
+}
+
+.empty-message {
+  color: #888;
+  font-style: italic;
+  text-align: center;
+  margin: 20px 0;
 }
 </style>
