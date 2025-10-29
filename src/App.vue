@@ -125,11 +125,13 @@ h2 {
 }
 
 .favorites-container {
-  max-width: 800px;
+  max-width: 900px;
   margin: 16px auto;
+  background-color: #fff;
+  color: #000;
+  border-radius: 6px;
+  border: 1px solid #ddd;
   padding: 16px;
-  background-color: #2a2a2a;
-  border-radius: 8px;
   min-height: 200px;
   max-height: 400px;
   overflow-y: auto;
@@ -137,21 +139,23 @@ h2 {
 
 .favorites-row {
   display: flex;
-  gap: 8px;
-  margin-bottom: 12px;
-  flex-wrap: nowrap;
-  justify-content: flex-start;
+  gap: 0;
+  margin-bottom: 0;
 }
 
 .favorite-item {
-  background-color: #fff;
-  color: #000;
-  padding: 10px 16px;
-  border-radius: 6px;
-  font-weight: bold;
-  min-width: 60px;
+  padding: 8px 16px;
   text-align: center;
-  border: 2px solid #4a90e2;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  border-right: 1px solid #eee;
+  border-bottom: 1px solid #eee;
+  min-width: 60px;
+}
+
+.favorite-item:last-child {
+  border-right: none;
+}
+
+.favorites-row:last-child .favorite-item {
+  border-bottom: none;
 }
 </style>
